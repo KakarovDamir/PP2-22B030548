@@ -172,6 +172,8 @@ def main():
             wall.draw()
             snake_length = 1
             snake_list = []
+            x1 = width // 2
+            y1 = height // 2
             Snake(snake_block,snake_list)
             snake_speed += 2
 
