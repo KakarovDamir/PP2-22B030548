@@ -1,25 +1,16 @@
 import psycopg2
-from config import host, user, password, db, port
-
+from config import config
 
 try:
-    #connection to exist database
-    connection = psycopg2.connect(
-        host = host,
-        user = user,
-        password = password ,
-        database = db,
-        port = port
-    )
-    connection.autocommit = True
+    params = config()
+    connection = psycopg2.connect(**params)
 
-    # the cursor for performing database opirations 
+    connection.autocommit = True
     with connection.cursor() as cursor:
         cursor.execute(
             "SELECT version();"
         )
         print(f"Server version: {cursor.fetchone()}")
-
 
     with connection.cursor() as cursor:
         cursor.execute(
@@ -27,12 +18,11 @@ try:
             Name varchar(255) NOT NULL,
             Number INTEGER NOT NULL)"""
         )
-        print("[INFO]: Table created successfully")     
+        print("[INFO]: Table created successfully")  
 
 
 except (Exception, psycopg2.DatabaseError) as error:
     print(error)
-
 
 finally:
     if connection:
